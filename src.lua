@@ -25,6 +25,11 @@ function console.new(Title: string)
         rconsoledestroy()
     end
 
+    function self.closeafter(seconds: number)
+        task.wait(seconds)
+        self.close()
+    end
+
     function self.input(callback: (value: string)->())
         callback(rconsoleinput())
     end
@@ -53,8 +58,12 @@ function console:Reset(callback: (response: boolean | string)->()?)
     end)
 end
 
-function console:End()
-    self.close()
+function console:End(seconds: number?)
+    if seconds then
+       self.closeafter(seconds)
+    else
+        self.close()
+    end
 end
 
 return console
